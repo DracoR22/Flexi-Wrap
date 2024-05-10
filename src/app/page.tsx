@@ -1,18 +1,106 @@
-import MaxWidthWrapper from "@/components/max-width-wrapper";
+import MaxWidthWrapper from "@/components/global/max-width-wrapper";
+import Phone from "@/components/global/phone";
+import { UnderlineIcon } from "@/components/icons/underline";
+import { MotionDiv } from "@/components/motion";
+import { AnimatedTitle } from "@/components/motion/animated-title";
+import { fadeIn } from "@/lib/variants";
+import { Variants } from "framer-motion";
+import { CheckIcon, PaletteIcon, StarIcon } from "lucide-react";
 import Image from "next/image";
 
 export default function Home() {
+  
   return (
-    <div className="bg-slate-50">
+    <div className="">
       <section>
         <MaxWidthWrapper className="pb-24 pt-10 lg:grid lg:grid-cols-3 sm:pb-32 lg:gap-x-0 xl:gap-x-8 lg:pt-24 xl:pt-32 lg:pb-52">
             <div className="col-span-2 px-6 lg:px-0 lg:pt-4">
                <div className="relative mx-auto text-center lg:text-left flex flex-col items-center lg:items-start">
-                  <div className="absolute w-28 left-0 -top-20 hidden lg:block">
+                  {/* <div className="absolute -left-[2%] -top-14 -z-1 sm:left-[10%]">
+                    <div className="size-20 rounded-lg bg-gradient-to-br via-orange-200 from-orange-500  p-2 text-background sm:size-24 lg:size-32">
+                     <PaletteIcon size={80} className="ml-3 mt-3"/>
+                    </div>
+                  </div> */}
+                <AnimatedTitle>
+                  <h1 className="relative w-fit tracking-tight text-balance font-bold !leading-tight text-gray-900 text-5xl md:text-6xl lg:text-7xl">
+                     Your Image on any <span className="bg-orange-400 px-6 text-white rounded-xl">Custom</span> Phone Case
+                  </h1>
+                </AnimatedTitle>
+                <MotionDiv variants={fadeIn('right', 0.5)} initial="hidden" animate="show" exit="hidden">
+                  <p className="mt-8 text-lg lg:pr-10 max-w-prose text-center lg:text-left text-balance md:text-wrap font-medium text-neutral-700">
+                     Capture your favorite memories with your own,{' '}
+                     <span className="font-semibold">one-of-one</span> phone case.
+                     Flexi Wrap allows you to protect your memories, not just your phone case.
+                  </p>
+                  </MotionDiv>
+                  <MotionDiv variants={fadeIn('right', 1)} initial="hidden" animate="show" exit="hidden">
+                  <ul className="mt-8 space-y-8 text-left font-medium text-gray-900 flex flex-col items-center sm:items-start">
+                    <div className="space-y-2">
+                      <li className="flex gap-1.5 items-center text-left">
+                         <CheckIcon className="h-5 w-5 shrink-0 text-orange-500"/>
+                         High-quality, durable material
+                      </li>
+                      <li className="flex gap-1.5 items-center text-left">
+                         <CheckIcon className="h-5 w-5 shrink-0 text-orange-500"/>
+                          5 year print guarantee
+                      </li>
+                      <li className="flex gap-1.5 items-center text-left">
+                         <CheckIcon className="h-5 w-5 shrink-0 text-orange-500"/>
+                         Modern iPhone models supported
+                      </li>
+                    </div>
+                  </ul>
+                  
 
+                  <div className="mt-12 flex flex-col sm:flex-row items-center sm:items-start gap-5">
+                     <div className="flex -space-x-4">
+                        <Image src={'/users/user-1.png'} className="inline-block h-10 w-10 rounded-full ring-full ring-slate-100" width={50} height={50} alt="user"/>
+                        <Image src={'/users/user-2.png'} className="inline-block h-10 w-10 rounded-full ring-full ring-slate-100" width={50} height={50} alt="user"/>
+                        <Image src={'/users/user-3.png'} className="inline-block h-10 w-10 rounded-full ring-full ring-slate-100" width={50} height={50} alt="user"/>
+                        <Image src={'/users/user-4.jpg'} className="inline-block h-10 w-10 rounded-full ring-full ring-slate-100" width={50} height={50} alt="user"/>
+                        <Image src={'/users/user-5.jpg'} className="inline-block h-10 w-10 rounded-full object-cover ring-full ring-slate-100" width={50} height={50} alt="user"/>
+                     </div>
+                      
+                    <div className="flex flex-col justify-between items-center sm:items-start">
+                       <div className="flex gap-0.5">
+                         <StarIcon className="h-4 w-4 text-orange-500 fill-orange-500"/>
+                         <StarIcon className="h-4 w-4 text-orange-500 fill-orange-500"/>
+                         <StarIcon className="h-4 w-4 text-orange-500 fill-orange-500"/>
+                         <StarIcon className="h-4 w-4 text-orange-500 fill-orange-500"/>
+                         <StarIcon className="h-4 w-4 text-orange-500 fill-orange-500"/>
+                       </div>
+
+                       <p> 
+                        <span className="font-semibold">1.250</span> happy customers
+                       </p>
+                    </div>
+                    
                   </div>
+                  </MotionDiv>
                </div>
             </div>
+
+          <MotionDiv variants={fadeIn('left', 0.5)} initial="hidden" animate="show" exit="hidden">
+           <div className="col-span-full lg:col-span-1 w-full flex justify-center px-8 sm:px-16 md:px-0 mt-20 lg:mx-0 lg:mt-12 h-fit">
+              <div className="relative md:max-w-xl">
+                 <img src={'/your-image.png'} alt="your image" className="absolute w-40 lg:w-52 left-56 -top-20 select-none hidden sm:block lg:hidden xl:block animate-bounce duration-2000"/>
+                 <img src={'/line.png'} alt="line" className="absolute w-20 -left-6 -bottom-6 select-none"/>
+                 <Phone className="w-64" imgSrc="/testimonials/1.jpg"/>
+              </div>
+            </div>
+          </MotionDiv>
+        </MaxWidthWrapper>
+      </section>
+
+      {/* Value proposition section */}
+      <section className="py-24">
+        <MaxWidthWrapper className="flex flex-col items-center gap-16 sm:gap-32">
+           <div className="flex flex-col lg:flex-row items-center gap-4 sm:gap-6">
+              <h2 className="order-1 mt-2 tracking-tight text-center text-balance !leading-tight font-bold text-5xl md:text-6xl text-gray-900">
+                What our <span className="relative px-2">customers <UnderlineIcon className="hidden sm:block pointer-events-none absolute inset-x-0 -bottom-6 text-orange-400"/></span>{' '}  say
+              </h2>
+              <img src="/" alt="fox" className="w-24 order-0 lg:order-2"/>
+           </div>
         </MaxWidthWrapper>
       </section>
     </div>
