@@ -70,7 +70,7 @@ function Review({ imgSrc, className, ...props }: ReviewProps) {
   const animationDelay = POSSIBLE_ANIMATION_DELAYS[Math.floor(Math.random() * POSSIBLE_ANIMATION_DELAYS.length)]
 
    return (
-    <div className={cn('animate-fade-in rounded-[2.25rem] bg-gray-50 p-6 opacity-0 shadow-xl shadow-slate-900/5', className)}
+    <div className={cn('animate-fade-in rounded-[2.25rem] bg-white p-6 opacity-0 shadow-xl shadow-slate-900/5', className)}
     style={{ animationDelay }} {...props}>
       <Phone imgSrc={imgSrc}/>
     </div>
@@ -104,6 +104,9 @@ const ReviewGrid = () => {
              <ReviewColumn reviews={column3.flat()} className='hidden md:block' msPerPixel={10}/>
             </>
            )}
+
+           <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-slate-100"/>
+           <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-slate-100"/>
         </div>
     )
 }
@@ -111,7 +114,7 @@ const ReviewGrid = () => {
 const Reviews = () => {
   return (
     <MaxWidthWrapper className="relative max-w-5xl">
-        <img aria-hidden="true" src="/what-people-are-buying.png" alt="" />
+        <img  className='absolute select-none hidden xl:block -left-32 top-1/3' aria-hidden="true" src="/what-people-are-buying.png" alt="" />
         <ReviewGrid/>
     </MaxWidthWrapper>
   )
