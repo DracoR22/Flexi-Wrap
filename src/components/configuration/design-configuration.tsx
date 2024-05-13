@@ -12,10 +12,13 @@ import { COLORS, FINISHES, MATERIALS, MODELS } from "@/validators/option-validat
 import { Label } from "../ui/label";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
-import { ArrowRightIcon, CheckIcon, ChevronsUpDownIcon } from "lucide-react";
+import { ArrowRightIcon, CheckIcon, ChevronsUpDownIcon, Loader2Icon } from "lucide-react";
 import { BASE_PRICE } from "@/config/products";
 import { useUploadThing } from "@/lib/uploadthing";
 import { toast } from "../ui/use-toast";
+import { useMutation } from "@tanstack/react-query";
+import { SaveConfigArgs, saveConfig as _saveConfig } from "@/actions/configuration-actions";
+import { useRouter } from "next/navigation";
 
 interface Props {
     configId: string
@@ -24,6 +27,27 @@ interface Props {
 }
 
 const DesignConfigurator = ({ configId, imageDimensions, imageUrl }: Props) => {
+
+   const router = useRouter()
+
+   const { mutate: saveConfig, isPending } = useMutation({
+      mutationKey: ['save-config'],
+      mutationFn: async (args: SaveConfigArgs) => {
+         await Promise.all([saveConfiguration(), _saveConfig(args)])
+      },
+
+      onError: () => {
+         toast({
+            title: 'Something went wrong :(',
+            description: 'There was an error on our end. Please try again.',
+            variant: 'destructive'
+         })
+      },
+
+      onSuccess: () => {
+          router.push(`/configure/preview?id=${configId}`)
+      }
+   })
 
     const [options, setOptions] = useState<{ 
       color: (typeof COLORS)[number];
@@ -259,9 +283,19 @@ const DesignConfigurator = ({ configId, imageDimensions, imageUrl }: Props) => {
                   <p className="font-medium whitespace-nowrap">
                      {formatPrice((BASE_PRICE + options.finish.price + options.material.price) / 100)}
                   </p>
-                  <Button onClick={() => saveConfiguration()} size={'sm'} className="w-full">
-                     Continue
-                     <ArrowRightIcon className="h-4 w-4 ml-1.5 inline"/>
+                  <Button disabled={isPending} onClick={() => saveConfig({ 
+                     configId, 
+                     color: options.color.value,
+                     finish: options.finish.value,
+                     material: options.material.value,
+                     model: options.model.value
+                     })} size={'sm'} className="w-full">
+                    {isPending ? <Loader2Icon className="w-4 h-4 animate-spin"/> : (
+                     <span>
+                         Continue
+                         <ArrowRightIcon className="h-4 w-4 ml-1.5 inline"/>
+                     </span>
+                    )}
                   </Button>
                </div>
              </div>
