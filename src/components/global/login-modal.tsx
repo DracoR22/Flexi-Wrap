@@ -17,6 +17,7 @@ const LoginModal = ({ isOpen, setIsOpen }: { isOpen: boolean; setIsOpen: Dispatc
         <DialogHeader>
           <div className='relative mx-auto w-24 h-24 mb-2'>
             <Image
+              unoptimized
               src='/flexiwrapbg.png'
               alt='snake image'
               className='object-contain'

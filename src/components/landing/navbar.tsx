@@ -39,7 +39,7 @@ const Navbar = async () => {
           href="/"
           className="group flex h-[100px] w-[100px] flex-col items-center gap-1 rounded-b-3xl bg-secondary/30 px-[6px] pt-2 text-2xl transition-colors hover:bg-primary/5 sm:size-32 sm:pt-4"
         >
-          <Image src={'/flexiwrapbg.png'} alt="logo" height={500} width={500} className="w-[6.5em] " />
+          <Image unoptimized src={'/flexiwrapbg.png'} alt="logo" height={500} width={500} className="w-[6.5em] " />
         </Link>
       </MotionDiv>
       <div className="flex flex-1 items-center justify-end space-x-3">
