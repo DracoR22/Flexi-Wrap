@@ -51,7 +51,7 @@ const Navbar = async () => {
                     </Link>
                   </Button>
                    {isAdmin && <Button asChild variant="ghost" className="font-medium p-4 text-lg">
-                    <Link href={'/api/auth/logout'}>
+                    <Link href={'/dashboard'}>
                      Dashboard
                     </Link>
                   </Button>}
