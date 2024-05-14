@@ -6,9 +6,13 @@ import Phone from "../global/phone"
 import { Configuration } from "@prisma/client"
 import { COLORS, FINISHES, MODELS } from "@/validators/option-validator"
 import { cn, formatPrice } from "@/lib/utils"
-import { ArrowRightIcon, CheckIcon } from "lucide-react"
+import { ArrowRightIcon, CheckIcon, Loader2Icon } from "lucide-react"
 import { BASE_PRICE, PRODUCT_PRICES } from "@/config/products"
 import { Button } from "../ui/button"
+import { useMutation } from "@tanstack/react-query"
+import { createCheckoutSession } from "@/actions/checkout-actions"
+import { useRouter } from "next/navigation"
+import { toast } from "../ui/use-toast"
 
 interface Props {
     configuration: Configuration
@@ -21,6 +25,8 @@ const DesignPreview = ({ configuration }: Props) => {
 
     const [showConfetti, setShowConfetti] = useState<boolean>(false)
 
+    const router = useRouter()
+
     let totalPrice = BASE_PRICE
 
     if (configuration.material === 'polycarbonate') {
@@ -30,6 +36,27 @@ const DesignPreview = ({ configuration }: Props) => {
     if (configuration.finish === 'textured') {
         totalPrice += PRODUCT_PRICES.finish.textured
     }
+
+    const { mutate: createPaymentSession, isPending } = useMutation({
+        mutationKey: ['get-checkout-session'],
+        mutationFn: createCheckoutSession,
+
+        onSuccess: ({ url }) => {
+          if (url) {
+              router.push(url)
+          } else {
+            throw new Error('Unable to retrieve payment URL.')
+          }
+        },
+
+        onError: () => {
+           toast({
+            title: 'Something went wrong :(',
+            description: 'There was an error on out end. Please try again.',
+            variant: 'destructive'
+           })
+        }
+    })
 
     useEffect(() => {
         setShowConfetti(true)
@@ -116,9 +143,13 @@ const DesignPreview = ({ configuration }: Props) => {
               </div>
 
               <div className="mt-8 flex justify-end pb-12">
-                <Button className="px-4 sm:px-6 lg:px-8">
-                    Check out 
-                    <ArrowRightIcon className="h-4 w-4 ml-1.5 inline"/>
+                <Button disabled={isPending} onClick={() => createPaymentSession({ configId: configuration.id })} className="px-4 sm:px-6 lg:px-8">
+                    {isPending ? <Loader2Icon className="w-4 h-4 animate-spin"/> : (
+                     <span>
+                         Continue
+                         <ArrowRightIcon className="h-4 w-4 ml-1.5 inline"/>
+                     </span>
+                    )}
                 </Button>
               </div>
             </div>
