@@ -20,7 +20,7 @@ const Navbar = async () => {
     <div className="z-1 flex w-full items-center justify-between gap-2 overflow-hidden px-2 sm:px-8">
       <div className="flex flex-1 items-center justify-start gap-1 max-sm:hidden">
         <Button variant="secondary" size="icon" asChild >
-          <a href="https://github.com/DracoR22/Rocket" target="_blank" aria-label="GitHub repo"  title="Github repo">
+          <a href="https://github.com/DracoR22/Flexi-Wrap" target="_blank" aria-label="GitHub repo"  title="Github repo">
           <span className="size-10">
           <GithubIcon/>
           </span>
@@ -68,11 +68,16 @@ const Navbar = async () => {
                       Sign up
                     </Link>
                    </Button>
-                   <Button asChild variant="default" className="font-medium p-4 text-lg">
+                   <Button asChild variant="ghost" className="font-medium p-4 text-lg">
                      <Link href={'/api/auth/login'}>
                         Login
                      </Link>
                    </Button>
+                   <Button asChild variant="default" className="font-medium p-4 text-lg">
+                    <Link href={'/configure/upload'}>
+                      Create case <RocketIcon className="ml-2"/>
+                    </Link>
+                  </Button>
                   </>
                  )}
       </div>

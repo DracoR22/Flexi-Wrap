@@ -13,6 +13,8 @@ import { useMutation } from "@tanstack/react-query"
 import { createCheckoutSession } from "@/actions/checkout-actions"
 import { useRouter } from "next/navigation"
 import { toast } from "../ui/use-toast"
+import { useKindeBrowserClient } from  "@kinde-oss/kinde-auth-nextjs"
+import LoginModal from "../global/login-modal"
 
 interface Props {
     configuration: Configuration
@@ -24,8 +26,10 @@ const DesignPreview = ({ configuration }: Props) => {
     const { label: modelLabel } = MODELS.options.find(({ value }) => value === configuration.model)!
 
     const [showConfetti, setShowConfetti] = useState<boolean>(false)
+    const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false)
 
     const router = useRouter()
+    const { user } = useKindeBrowserClient()
 
     let totalPrice = BASE_PRICE
 
@@ -58,6 +62,17 @@ const DesignPreview = ({ configuration }: Props) => {
         }
     })
 
+    const handleCheckout = () => {
+      if (user) {
+         // Create a payment session
+         createPaymentSession({ configId: configuration.id })
+      } else {
+         // Need to log in
+         localStorage.setItem('configurationId', configuration.id)
+         setIsLoginModalOpen(true)
+      }
+    }
+
     useEffect(() => {
         setShowConfetti(true)
     }, []) 
@@ -67,6 +82,8 @@ const DesignPreview = ({ configuration }: Props) => {
       <div aria-hidden="true" className="pointer-events-none select-none absolute inset-0 overflow-hidden flex justify-center">
          <Confetti active={showConfetti} config={{ elementCount: 200, spread: 90 }}/>
       </div>
+
+      <LoginModal isOpen={isLoginModalOpen} setIsOpen={setIsLoginModalOpen}/>
 
       <div className="mt-20 grid grid-cols-1 text-sm sm:grid-cols-12 sm:grid-rows-1 sm:gap-x-6 md:gap-x-8 lg:gap-x-12">
          <div className="sm:col-span-4 md:col-span-3 md:row-span-2 md:row-end-2">
@@ -143,7 +160,7 @@ const DesignPreview = ({ configuration }: Props) => {
               </div>
 
               <div className="mt-8 flex justify-end pb-12">
-                <Button disabled={isPending} onClick={() => createPaymentSession({ configId: configuration.id })} className="px-4 sm:px-6 lg:px-8">
+                <Button disabled={isPending} onClick={() => handleCheckout()} className="px-4 sm:px-6 lg:px-8">
                     {isPending ? <Loader2Icon className="w-4 h-4 animate-spin"/> : (
                      <span>
                          Continue
