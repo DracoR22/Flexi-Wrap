@@ -26,6 +26,7 @@ export async function POST(req: Request) {
 
       const session = event.data.object as Stripe.Checkout.Session
 
+      // Get userId and orderId from the metadata object
       const { userId, orderId } = session.metadata || {
         userId: null,
         orderId: null,
@@ -38,6 +39,7 @@ export async function POST(req: Request) {
       const billingAddress = session.customer_details!.address
       const shippingAddress = session.shipping_details!.address
 
+      // Update the order
       const updatedOrder = await db.order.update({
         where: {
           id: orderId,
@@ -67,6 +69,7 @@ export async function POST(req: Request) {
         },
       })
 
+      // Send the thanks email
     //   await resend.emails.send({
     //     from: 'CaseCobra <hello@joshtriedcoding.com>',
     //     to: [event.data.object.customer_details.email],
@@ -91,9 +94,6 @@ export async function POST(req: Request) {
   } catch (err) {
     console.error(err)
 
-    return NextResponse.json(
-      { message: 'Something went wrong', ok: false },
-      { status: 500 }
-    )
+    return NextResponse.json( { message: 'Something went wrong', ok: false },  { status: 500 })
   }
 }
