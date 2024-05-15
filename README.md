@@ -7,7 +7,7 @@
   Create custom high-quality phone cases in seconds.
 </p>
 
-Key Features:
+### Key Features:
 
 - 🛠️ Complete shop built from scratch in Next.js 14
 - 💻 Beautiful landing page included
