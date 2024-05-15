@@ -4,7 +4,7 @@
 </a>
 
 <p align="center">
-  An open-source Notion-style WYSIWYG editor with AI-powered autocompletions. 
+  Create custom high-quality phone cases in seconds.
 </p>
 
 Key Features:
