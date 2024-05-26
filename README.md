@@ -1,6 +1,6 @@
 <a href="https://flexi-wrap.vercel.app">
   <img alt="Create custom high-quality phone cases in seconds." src="https://flexi-wrap.vercel.app/thumbnail.png">
-  <h1 align="center">FlexiWrap</h1>
+  <h1 align="center">FlexiWrap 🦊</h1>
 </a>
 
 <p align="center">
